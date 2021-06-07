@@ -1,24 +1,17 @@
 const GameBoard = (function () {
     let _gamePads = document.querySelectorAll(".gamePad");
-    let _gameBoard = [];
-
-
+    let _gameBoard = ['', '', '', '', '', '', '', '', ''];
     updateGameboard = (_gamePad) => {
         if (_gamePad.textContent === "") {
             let player = Game.getCurrentPlayer()
-            player.addMark(_gamePad);
-            _gameBoard.push(player.marker)
-            console.log(_gameBoard)
-            Game.switchPlayer();           
+            let num = player.addMark(_gamePad);
+            _gameBoard.splice(num, 1, player.marker);
+            if (Game.isOver()) console.log("over")
+            else Game.switchPlayer();        
+            return          
         }        
     }
-
-    _gamePads.forEach((_gamePad) => _gamePad.addEventListener('click', () => {updateGameboard(_gamePad)}))
- 
-    function isOver() {
-        
-    }
-
+    _gamePads.forEach((_gamePad) => _gamePad.addEventListener('click', () => {updateGameboard(_gamePad)}))  
     return {
         _gameBoard
     }
@@ -27,6 +20,7 @@ const GameBoard = (function () {
 const Player = (name, marker) => {
     let addMark = (_gamePad) => {
          _gamePad.textContent = marker;
+         return _gamePad.dataset.num
     }
     return {
         name,
@@ -38,6 +32,12 @@ const Player = (name, marker) => {
 const Game = (function () {
     let player1 = Player("tony", "X");
     let player2 = Player("many", "O");
+    let winningCombinations = [ 
+        [0, 1, 2], [3, 4, 5], 
+        [6, 7, 8], [0, 3, 6],
+        [1, 4, 7], [2, 5, 8],
+        [0, 4, 8], [2, 4, 6]
+    ];
     
     function getCurrentPlayer() {
         let player
@@ -51,9 +51,34 @@ const Game = (function () {
         return
     }
 
+    function isOver() {
+        let player1Game = [];
+        let player2Game = [];
+        let end = false;
+
+        for(let i = 0; i < GameBoard._gameBoard.length; i++) {
+            if(GameBoard._gameBoard[i] === player1.marker) player1Game.push(i)
+            else if(GameBoard._gameBoard[i] === player2.marker) player2Game.push(i)
+        }
+        
+        winningCombinations.forEach((combination) => {
+            if (combination.every((index) => {
+                return player1Game.includes(index);
+            }) || combination.every((index) => {
+                return player2Game.includes(index);
+            })) {
+                end = true;
+            }
+        })
+
+        return end
+    }
+
+
     return {
         getCurrentPlayer,
-        switchPlayer
+        switchPlayer,
+        isOver
     }
 })();
 
