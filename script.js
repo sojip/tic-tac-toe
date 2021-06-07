@@ -1,11 +1,11 @@
 const GameBoard = (function () {
     let _gamePads = document.querySelectorAll(".gamePad");
-    let _gameBoard = ['', '', '', '', '', '', '', '', ''];
+    let gameBoard = ['', '', '', '', '', '', '', '', ''];
     updateGameboard = (_gamePad) => {
         if (_gamePad.textContent === "") {
             let player = Game.getCurrentPlayer()
             let num = player.addMark(_gamePad);
-            _gameBoard.splice(num, 1, player.marker);
+            gameBoard.splice(num, 1, player.marker);
             if (Game.isOver()) console.log("over")
             else Game.switchPlayer();        
             return          
@@ -13,7 +13,7 @@ const GameBoard = (function () {
     }
     _gamePads.forEach((_gamePad) => _gamePad.addEventListener('click', () => {updateGameboard(_gamePad)}))  
     return {
-        _gameBoard
+        gameBoard
     }
 })()
 
@@ -56,9 +56,9 @@ const Game = (function () {
         let player2Game = [];
         let end = false;
 
-        for(let i = 0; i < GameBoard._gameBoard.length; i++) {
-            if(GameBoard._gameBoard[i] === player1.marker) player1Game.push(i)
-            else if(GameBoard._gameBoard[i] === player2.marker) player2Game.push(i)
+        for(let i = 0; i < GameBoard.gameBoard.length; i++) {
+            if(GameBoard.gameBoard[i] === player1.marker) player1Game.push(i)
+            else if(GameBoard.gameBoard[i] === player2.marker) player2Game.push(i)
         }
         
         winningCombinations.forEach((combination) => {
