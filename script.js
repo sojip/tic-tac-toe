@@ -1,26 +1,46 @@
 const GameBoard = (function () {
     let _gamePads = document.querySelectorAll(".gamePad");
     let gameBoard = ['', '', '', '', '', '', '', '', ''];
-    updateGameboard = (_gamePad) => {
-        if (_gamePad.textContent === "") {
+    let restartButton = document.querySelector("#restart");
+
+    _updateGameboard = (gamePad) => {
+        if (gamePad.textContent === "") {
             let player = Game.getCurrentPlayer()
-            let num = player.addMark(_gamePad);
+            let num = player.addMark(gamePad);
             gameBoard.splice(num, 1, player.marker);
-            if (Game.isOver()) console.log("over")
+            if (Game.isOver()) {
+                _gamePads.forEach((gamePad) => gamePad.removeEventListener('click', _gamePadHandler));
+            }
             else Game.switchPlayer();        
             return          
         }        
     }
-    _gamePads.forEach((_gamePad) => _gamePad.addEventListener('click', () => {updateGameboard(_gamePad)}))  
+
+    _gamePadHandler = (e) => {
+        _updateGameboard(e.target);
+    }
+    _gamePads.forEach((gamePad) => gamePad.addEventListener('click', _gamePadHandler));
+
+    restart = () => {
+        _gamePads.forEach((gamePad) => {
+            gamePad.textContent = ""
+            gamePad.addEventListener('click', _gamePadHandler)
+        });
+        gameBoard.forEach((element, index, arr) => {arr[index] = ""});
+        document.querySelector(".currentlyPlaying").textContent = "1";
+    }
+
+    restartButton.addEventListener('click', restart);
+
     return {
-        gameBoard
+        gameBoard,
     }
 })()
 
 const Player = (name, marker) => {
-    let addMark = (_gamePad) => {
-         _gamePad.textContent = marker;
-         return _gamePad.dataset.num
+    let addMark = (gamePad) => {
+         gamePad.textContent = marker;
+         return gamePad.dataset.num
     }
     return {
         name,
@@ -32,6 +52,7 @@ const Player = (name, marker) => {
 const Game = (function () {
     let player1 = Player("tony", "X");
     let player2 = Player("many", "O");
+
     let winningCombinations = [ 
         [0, 1, 2], [3, 4, 5], 
         [6, 7, 8], [0, 3, 6],
@@ -51,16 +72,17 @@ const Game = (function () {
         return
     }
 
-    function isOver() {
+    isOver = () => {
         let player1Game = [];
         let player2Game = [];
         let end = false;
-
         for(let i = 0; i < GameBoard.gameBoard.length; i++) {
-            if(GameBoard.gameBoard[i] === player1.marker) player1Game.push(i)
-            else if(GameBoard.gameBoard[i] === player2.marker) player2Game.push(i)
+            if(GameBoard.gameBoard[i] === player1.marker) player1Game.push(i);
+            else if(GameBoard.gameBoard[i] === player2.marker) player2Game.push(i);
         }
+
         
+        //Look for 3 in a row
         winningCombinations.forEach((combination) => {
             if (combination.every((index) => {
                 return player1Game.includes(index);
@@ -71,14 +93,16 @@ const Game = (function () {
             }
         })
 
+        //Look for tie
+        if(player1Game.length + player2Game.length === 9 && end === false) end = null;
+
         return end
     }
-
 
     return {
         getCurrentPlayer,
         switchPlayer,
-        isOver
+        isOver,
     }
 })();
 
