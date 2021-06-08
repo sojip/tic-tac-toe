@@ -1,34 +1,86 @@
+@import url("https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap");
+
+:root {
+  --navBgColor: rgb(255, 255, 0);
+  --navTitleColor: rgb(75, 0, 130);
+  --navFont: "Odibee Sans", cursive;
+  --gameboardBgColor: rgb(255, 255, 0, 0.3);
+  --buttonFont: "ZCOOL KuaiLe", cursive;
+}
+
 html {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  height: 75px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--navBgColor);
+  color: var(--navTitleColor);
+  font-size: 40px;
+  font-weight: bold;
+  box-shadow: 0 8px 6px -6px black;
+  font-family: var(--navFont);
+}
+
+.player {
+  width: 100%;
+  border: solid 1px black;
+  text-align: center;
+  box-sizing: border-box;
+  margin: 25px 0px;
+  height: 75px;
 }
 
 .gameboardContainer {
-    width : 200px;
-    height: 200px;
-    border: solid 1px black;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    box-sizing: border-box;
-
+  width: 200px;
+  height: 200px;
+  border: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  box-sizing: border-box;
+  margin: auto;
+  background-color: var(--gameboardBgColor);
+  /* box-shadow: 0 8px 6px -6px black; */
+  box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12);
 }
 
 .gamePad {
-    box-sizing: border-box;
-    border : solid 1px red;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
+  box-sizing: border-box;
+  border: solid 1px var(--navTitleColor);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+#restart {
+  display: block;
+  margin: 25px auto;
+  width: 100px;
+  background-color: var(--navTitleColor);
+  color: var(--navBgColor);
+  height: 30px;
+  font-family: var(--buttonFont);
+  font-size: 18px;
+  border-radius: 5px;
 }
