@@ -40,7 +40,7 @@ nav {
 
 .player {
   width: 50%;
-  border: solid 1px var(--navTitleColor);
+  border: solid 1px black;
   border-radius: 5px;
   background-color: var(--playerBgColor);
   text-align: center;
