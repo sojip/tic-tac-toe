@@ -7,6 +7,7 @@
   --navFont: "Odibee Sans", cursive;
   --gameboardBgColor: rgb(255, 255, 0, 0.3);
   --buttonFont: "ZCOOL KuaiLe", cursive;
+  --playerBgColor: rgb(255, 255, 0, 0.2);
 }
 
 html {
@@ -38,12 +39,37 @@ nav {
 }
 
 .player {
-  width: 100%;
-  border: solid 1px black;
+  width: 50%;
+  border: solid 1px var(--navTitleColor);
+  border-radius: 5px;
+  background-color: var(--playerBgColor);
   text-align: center;
   box-sizing: border-box;
-  margin: 25px 0px;
+  margin: 25px auto;
   height: 75px;
+  padding: 15px;
+  line-height: 25px;
+  font-family: var(--buttonFont);
+  font-size: 25px;
+}
+
+.win {
+  color: rgba(0,0,128); 
+  opacity: 0;
+}
+
+.win.visible {
+  animation: victory 1s infinite;
+ 
+}
+
+@keyframes victory {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .gameboardContainer {
@@ -56,7 +82,6 @@ nav {
   box-sizing: border-box;
   margin: auto;
   background-color: var(--gameboardBgColor);
-  /* box-shadow: 0 8px 6px -6px black; */
   box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
     0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
     0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086),

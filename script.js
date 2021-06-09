@@ -2,6 +2,7 @@ const GameBoard = (function () {
     let _gamePads = document.querySelectorAll(".gamePad");
     let gameBoard = ['', '', '', '', '', '', '', '', ''];
     let restartButton = document.querySelector("#restart");
+    let winInfo = document.querySelector(".win");
 
     _updateGameboard = (gamePad) => {
         if (gamePad.textContent === "") {
@@ -10,6 +11,12 @@ const GameBoard = (function () {
             gameBoard.splice(num, 1, player.marker);
             if (Game.isOver()) {
                 _gamePads.forEach((gamePad) => gamePad.removeEventListener('click', _gamePadHandler));
+                winInfo.textContent = "Win";
+                winInfo.classList.add("visible");
+            }
+            else if (Game.isOver() === null) {
+                winInfo.textContent = "Tie";
+                winInfo.classList.add("visible");
             }
             else Game.switchPlayer();
             return
@@ -28,6 +35,7 @@ const GameBoard = (function () {
         });
         gameBoard.forEach((element, index, arr) => { arr[index] = "" });
         document.querySelector(".currentlyPlaying").textContent = "1";
+        winInfo.classList.remove("visible");
     }
 
     restartButton.addEventListener('click', restart);
@@ -105,4 +113,3 @@ const Game = (function () {
         isOver,
     }
 })();
-
